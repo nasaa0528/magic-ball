@@ -47,12 +47,17 @@ func getRandomAnswer(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, responses[rand.Intn(len(responses))])
 }
 
+func healthCheck(c *gin.Context) {
+	c.Writer.WriteHeader(200)
+}
+
 func main() {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	router.SetTrustedProxies(nil)
 	router.GET("/answers", getAllAnswers)
 	router.GET("/answer", getRandomAnswer)
+	router.GET("/health", healthCheck)
 
 	port := os.Getenv("PORT")
 	if port == "" {
